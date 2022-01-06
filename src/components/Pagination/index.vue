@@ -1,32 +1,26 @@
 <template>
-  <div class="fr page">
-    <div class="sui-pagination clearfix">
-      <ul>
-        <li class="prev disabled">
-          <a>«上一页</a>
-        </li>
-        <li class="active">
-          <a>1</a>
-        </li>
-        <li>
-          <a>2</a>
-        </li>
-        <li>
-          <a>3</a>
-        </li>
-        <li>
-          <a>4</a>
-        </li>
-        <li>
-          <a>5</a>
-        </li>
-        <li class="dotted"><span>...</span></li>
-        <li class="next">
-          <a>下一页»</a>
-        </li>
-      </ul>
-      <div><span>共10页&nbsp;</span></div>
-    </div>
+  <div class="pagination">
+    <button :disabled="pageNo == 1" @click="$emit('goPageNo', pageNo - 1)">上一页</button>
+    <button v-if="startNumAndEndNum.start > 1" @click="$emit('goPageNo', 1)" :class="{active: pageNo == 1}">1</button>
+    <button v-if="startNumAndEndNum.start > 2">...</button>
+
+    <button 
+    v-for="(page, index) in startNumAndEndNum.end" 
+    :key="index" 
+    v-show="page >= startNumAndEndNum.start" 
+    @click="$emit('goPageNo', page)"
+    :class="{active: pageNo == page}">
+    {{page}}
+    </button>
+
+    <button v-if="startNumAndEndNum.end < totalPage - 1">...</button>
+    <button v-if="startNumAndEndNum.end < totalPage" 
+    @click="$emit('goPageNo', totalPage)"
+    :class="{active: pageNo == totalPage}">
+    {{totalPage}}
+    </button>
+    <button :disabled="pageNo == totalPage" @click="$emit('goPageNo', pageNo + 1)">下一页</button>
+    <button style="margin-left: 30px">共 {{total}} 条</button>
   </div>
 </template>
 
@@ -36,93 +30,76 @@ export default {
   data() {
     return {};
   },
+  props: ['pageNo','pageSize','total','continues'], // 当前页码 每页显示数 数据总数 分隔页数
+  computed: {
+    // 总页数 
+    totalPage() {
+      // 向上取整
+      return Math.ceil(this.total / this.pageSize)
+    },
+    // 开始页和结束页
+    startNumAndEndNum() {
+      const { pageNo, continues, totalPage } = this
+      // 开始页码 结束页码
+      let start = 0, end = 0
+      // 如果分隔页数大于总页数
+      if(continues > totalPage) {
+        start = 1;
+        end = totalPage
+      }else {
+        start = pageNo - parseInt(continues/2)
+        end = pageNo + parseInt(continues/2)
+        // 开始页码小于1 则调整为1
+        if(start < 1) {
+          start = 1;
+          end = continues
+        }
+        // 结束页码大于总页码 则调整为总页码数
+        if(end > totalPage) {
+          end = totalPage
+          start = totalPage - continues + 1
+        }
+      }
+      return { start, end }
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
-.page {
-  width: 733px;
-  height: 66px;
-  overflow: hidden;
-  float: right;
+.pagination {
+  text-align: center;
+  button {
+    margin: 0 5px;
+    background-color: #f4f4f5;
+    color: #606266;
+    outline: none;
+    border-radius: 2px;
+    padding: 0 4px;
+    vertical-align: top;
+    display: inline-block;
+    font-size: 13px;
+    min-width: 35.5px;
+    height: 28px;
+    line-height: 28px;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+    border: 0;
 
-  .sui-pagination {
-    margin: 18px 0;
-
-    ul {
-      margin-left: 0;
-      margin-bottom: 0;
-      vertical-align: middle;
-      width: 490px;
-      float: left;
-
-      li {
-        line-height: 18px;
-        display: inline-block;
-
-        a {
-          position: relative;
-          float: left;
-          line-height: 18px;
-          text-decoration: none;
-          background-color: #fff;
-          border: 1px solid #e0e9ee;
-          margin-left: -1px;
-          font-size: 14px;
-          padding: 9px 18px;
-          color: #333;
-        }
-
-        &.active {
-          a {
-            background-color: #fff;
-            color: #e1251b;
-            border-color: #fff;
-            cursor: default;
-          }
-        }
-
-        &.prev {
-          a {
-            background-color: #fafafa;
-          }
-        }
-
-        &.disabled {
-          a {
-            color: #999;
-            cursor: default;
-          }
-        }
-
-        &.dotted {
-          span {
-            margin-left: -1px;
-            position: relative;
-            float: left;
-            line-height: 18px;
-            text-decoration: none;
-            background-color: #fff;
-            font-size: 14px;
-            border: 0;
-            padding: 9px 18px;
-            color: #333;
-          }
-        }
-
-        &.next {
-          a {
-            background-color: #fafafa;
-          }
-        }
-      }
+    &[disabled] {
+      color: #c0c4cc;
+      cursor: not-allowed;
     }
 
-    div {
-      color: #333;
-      font-size: 14px;
-      float: right;
-      width: 241px;
+    &.active {
+      cursor: not-allowed;
+      background-color: #409eff;
+      color: #fff;
     }
   }
 }
+.active{
+  background: skyblue;
+}
+</style>
 </style>

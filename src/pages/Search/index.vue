@@ -43,7 +43,9 @@
               <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"><img :src=good.defaultImg /></a>
+                    <router-link :to="`/detail/${good.id}`">
+                      <img :src=good.defaultImg />
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -66,7 +68,7 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <Pagination></Pagination>
+          <Pagination :pageNo="searchParams.pageNo" :pageSize="searchParams.pageSize" :total="total" :continues="5" @goPageNo="goPageNo"></Pagination>
         </div>
       </div>
     </div>
@@ -75,7 +77,7 @@
 
 <script>
   import SearchSelector from './SearchSelector/SearchSelector'
-  import { mapGetters } from 'vuex'
+  import { mapState,mapGetters } from 'vuex'
   export default {
     name: 'Search',
     components: {
@@ -116,6 +118,9 @@
       this.getData()    
     },
     computed: {
+      ...mapState({
+        total: state => state.search.searchList.total
+      }),
       ...mapGetters(['goodsList']),
       isOne() {
         return this.searchParams.order.indexOf('1') != -1
@@ -224,6 +229,13 @@
           newOrder = `${flag}:${'desc'}`
         }
         this.searchParams.order = newOrder
+        this.getData()
+      },
+      // 自定义事件回调函数 当前第几页
+      goPageNo(page) {
+        // 整理参数
+        this.searchParams.pageNo = page
+        // 发起请求
         this.getData()
       }
     }

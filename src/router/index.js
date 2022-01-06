@@ -1,6 +1,7 @@
 // 路由配置的地方
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import routes from './routes'
 // 使用插件
 Vue.use(VueRouter)
 
@@ -18,34 +19,10 @@ VueRouter.prototype.replcae = function replace(to) {
 // 配置路由
 export default new VueRouter({
   // 配置路由
-  routes: [
-    {
-      path: '*',
-      redirect: '/home'
-    },
-    {
-      name: 'home',
-      path: '/home',
-      component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Home'),
-      meta: {show: true}
-    },
-    {
-      name: 'search',
-      path: '/search/:keyword?', // ?代表params参数可传可不传
-      component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Search'),
-      meta: {show: true}
-    },
-    {
-      name: 'register',
-      path: '/register',
-      component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Register'),
-      meta: {show: false}
-    },
-    {
-      name: 'login',
-      path: '/login',
-      component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Login'),
-      meta: {show: false}
-    }
-  ]
+  routes,
+  // 滚动行为
+  scrollBehavior (to, from, savedPosition) {
+    // 返回y=0 表示滚动条在最上方
+    return { y: 0 }
+  }
 })
