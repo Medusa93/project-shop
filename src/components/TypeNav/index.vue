@@ -84,7 +84,7 @@ export default {
     return {
       // 鼠标进入一级菜单 当前的索引
       currentIndex: -1,
-      show: true,
+      show: this.$route.path == '/home',
     };
   },
   methods: {

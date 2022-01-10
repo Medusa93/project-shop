@@ -30,7 +30,7 @@ export default {
   data() {
     return {};
   },
-  props: ['pageNo','pageSize','total','continues'], // 当前页码 每页显示数 数据总数 分隔页数
+  props: ['pageNo','pageSize','total','continues'], // 当前页码 每页显示数 数据总数 连续页码数
   computed: {
     // 总页数 
     totalPage() {
@@ -42,7 +42,7 @@ export default {
       const { pageNo, continues, totalPage } = this
       // 开始页码 结束页码
       let start = 0, end = 0
-      // 如果分隔页数大于总页数
+      // 如果连续页码数大于总页数
       if(continues > totalPage) {
         start = 1;
         end = totalPage

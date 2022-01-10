@@ -14,3 +14,5 @@ export const reqGetBannerList = () => mockRequests({url: '/banner', method: 'GET
 export const reqGetFloorList = () => mockRequests({url: '/floor', method: 'get'})
 // 搜索功能 params至少是一个空对象
 export const reqGetSearchInfo = (params) => requests({url:'/list', method: 'post', data: params})
+// 获取商品详情信息
+export const reqGoodsInfo = (skuid) => requests({url:`/item/${skuid}`, method: 'get'})
