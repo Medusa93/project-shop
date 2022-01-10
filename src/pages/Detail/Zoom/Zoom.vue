@@ -49,9 +49,6 @@ export default {
       this.currentIndex = index
     })
   },
-  beforeDestroy() {
-    this.$bus.off('getIndex')
-  }
 };
 </script>
 

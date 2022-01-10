@@ -34,4 +34,10 @@ export default [
     component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Detail'),
     meta: {show: true}
   },
+  {
+    name: 'addCartSuccess',
+    path: '/addCartSuccess',
+    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/AddCartSuccess'),
+    meta: {show: true}
+  },
 ]

@@ -1,5 +1,5 @@
 // 商品详情模块仓库
-import { reqGoodsInfo } from "@/api";
+import { reqGoodsInfo, reqAddOrUpdateShopCar } from "@/api";
 const state = {
   goodsInfo: {}
 }
@@ -31,6 +31,17 @@ const actions = {
     let res = await reqGoodsInfo(skuid)
     if(res.code == 200) {
       commit('GETGOODINFO', res.data)
+    }
+  },
+  // 加入购物车
+  async reqAddOrUpdateShopCar({commit}, {skuId, skuNum}) {
+    let res = await reqAddOrUpdateShopCar(skuId,skuNum)
+    if(res.code == 200) {
+      // 返回是成功的标记
+      return 'ok'
+    }else {
+      // 返回是失败的标记
+      return Promise.reject(new Error('fail'))
     }
   }
 }
