@@ -27,7 +27,10 @@ export default {
     Brand
   },
   mounted() {
+    // 获取floor数据
     this.$store.dispatch('getFloorList')
+    // 获取用户信息
+    this.$store.dispatch('getUserInfo')
   },
   data() {
     return {
@@ -36,7 +39,7 @@ export default {
   computed: {
     ...mapState({
       floorList: state => state.home.floorList
-    })
+    }),
   }
 };
 </script>

@@ -399,28 +399,23 @@ export default {
       }
     },
     // 加入购物车功能
-    addShopCar() {
+    async addShopCar() {
       // 发起请求 把数据加入服务器
-      // try {
-      //   // async函数执行返回的结果一定是一个Promise 要么成功 要么失败
-      //   // 成功
-      //    await this.$store.dispatch("reqAddOrUpdateShopCar", {
-      //     skuId: this.$route.params.skuid,
-      //     skuNum: this.skuNum,
-      //   });
-      //   this.$router.push({name: 'addCartSuccess'})
-      // } catch (err) {
-      //   // 失败
-      //   console.log(err.message);
-      // }
-      this.$store.dispatch("reqAddOrUpdateShopCar", {
-        skuId: this.$route.params.skuid,
-        skuNum: this.skuNum,
-      });
-      // 会话存储
-      sessionStorage.setItem('SKUINFO', JSON.stringify(this.skuInfo))
-      // 进行路由跳转
-      this.$router.push({ name: "addCartSuccess", query: {skuNum: this.skuNum} });
+      try {
+        // async函数执行返回的结果一定是一个Promise 要么成功 要么失败
+        // 成功
+        const res = await this.$store.dispatch("reqAddOrUpdateShopCar", {
+          skuId: this.$route.params.skuid,
+          skuNum: this.skuNum,
+        });
+        // 会话存储
+        sessionStorage.setItem('SKUINFO', JSON.stringify(this.skuInfo))
+        // 进行路由跳转
+        this.$router.push({ name: "addCartSuccess", query: {skuNum: this.skuNum} });
+      } catch (err) {
+        // 失败
+        console.log(err.message);
+      }
     },
   },
 };

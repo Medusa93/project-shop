@@ -1,7 +1,10 @@
 // 商品详情模块仓库
 import { reqGoodsInfo, reqAddOrUpdateShopCar } from "@/api";
+import { getUUID } from '@/utils/uuid'
 const state = {
-  goodsInfo: {}
+  goodsInfo: {},
+  // 游客临时身份
+  uuid_token: getUUID()
 }
 
 const getters = {

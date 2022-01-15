@@ -5,6 +5,18 @@ export default [
     redirect: '/home'
   },
   {
+    name: 'login',
+    path: '/login',
+    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Login'),
+    meta: {show: true}
+  },
+  {
+    name: 'register',
+    path: '/register',
+    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Register'),
+    meta: {show: true}
+  },
+  {
     name: 'home',
     path: '/home',
     component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Home'),
@@ -38,6 +50,12 @@ export default [
     name: 'addCartSuccess',
     path: '/addCartSuccess',
     component: () => import(/* webpackChunkName: 'pages' */ '@/pages/AddCartSuccess'),
+    meta: {show: true}
+  },
+  {
+    name: 'shopcart',
+    path: '/shopcart',
+    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/ShopCart'),
     meta: {show: true}
   },
 ]

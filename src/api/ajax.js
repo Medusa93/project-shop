@@ -5,6 +5,8 @@ import nprogress from 'nprogress'
 // 引入进度条样式
 import 'nprogress/nprogress.css'
 
+import store from '@/store'
+
 const requests = axios.create({
   // 配置对象
   // 基础路径,发请求的时候,路径中会出现api
@@ -17,6 +19,14 @@ const requests = axios.create({
 requests.interceptors.request.use(config => {
   // 进度条开始
   nprogress.start()
+  // 请求头添加一个字段 与后台商量好的
+  if(store.state.detail.uuid_token) {
+    config.headers.userTempId = store.state.detail.uuid_token
+  }
+  // 用户token 身份标识
+  if(store.state.user.token) {
+    config.headers.token = store.state.user.token
+  }  
   // config: 配置对象, 对象里有一个属性很重要, header请求头
   return config 
 })

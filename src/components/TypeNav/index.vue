@@ -93,7 +93,6 @@ export default {
     // 节流 规定时间内只触发一次
     changeIndex: throttle(function (index) {
       this.currentIndex = index;
-      // console.log(index)
     }, 50),
     // 鼠标进入
     enterShow() {
