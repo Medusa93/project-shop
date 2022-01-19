@@ -22,6 +22,14 @@ import '@/mock/mockServe'
 // 引入swiper样式
 import 'swiper/css/swiper.css';
 
+// 引入api所有方法
+import * as API from "@/api"
+
+import { MessageBox } from 'element-ui';
+// ElementUI注册组件的一种写法: 挂在到原型上
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+
 new Vue({
   // 注册路由
   router,
@@ -29,6 +37,7 @@ new Vue({
   // 全局事件总线$bus配置
   beforeCreate() {
     Vue.prototype.$bus = this
+    Vue.prototype.$API = API
   },
   render: h => h(App),
 }).$mount('#app')

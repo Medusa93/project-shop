@@ -66,14 +66,19 @@ import { reqGetCode, reqUserRegister, reqUserLogin, reqUserInfo, reqUserLogout }
     const res = await reqUserInfo()
     if(res.code == 200) {
       commit("GETUSERINFO", res.data)      
+      return 'ok'
+    }else {
+      return Promise.reject(new Error('fail'))
     }
-    console.log(res)
   },
   // 退出登录
   async userLogout({commit}) {
     const res = await reqUserLogout()
     if(res.code == 200) {
       commit("CLEAR")
+      return 'ok'
+    }else {
+      return Promise.reject(new Error('fail'))
     }
   }
  }

@@ -2,23 +2,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import store from '@/store'
 
 // 使用插件
 Vue.use(VueRouter)
 
 // 解决点击同一路由报错问题
+// 重写VueRouter.prototype上的push方法
 const VueRouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(to) {
   return VueRouterPush.call(this, to).catch(err => err)
 }
-
+// 重写VueRouter.prototype上的replace方法
 const VueRouterReplace = VueRouter.prototype.replace
 VueRouter.prototype.replcae = function replace(to) {
   return VueRouterReplace.call(this, to).catch(err => err)
 }
 
 // 配置路由
-export default new VueRouter({
+let router = new VueRouter({
   // 配置路由
   routes,
   // 滚动行为
@@ -27,3 +29,39 @@ export default new VueRouter({
     return { y: 0 }
   }
 })
+
+router.beforeEach(async (to, from, next) => {
+  const token = store.state.user.token
+  const name = store.state.user.userInfo.name
+  // 如果已经登录
+  if(token) {
+    // 如果是去登录页 留在首页
+    if(to.path == '/login' || to.path == '/register') {
+      next('/home')
+    }else {
+      // 如果登录了 访问的不是登录和注册
+      // 登录了且拥有用户信息
+      if(name) {
+        next()
+      }else {
+        // 没有用户名 获取用户信息
+        try {
+           // 获取用户信息成功
+           await store.dispatch('getUserInfo')
+          //  放行
+           next()
+        }catch(err) {
+           // token失效获 重新登录
+           // 清除token
+           await store.dispatch('userLogout')
+           next('/login')           
+        }
+      }
+    }
+  } else {
+    // 未登录 跳转登陆页
+    next()   
+  }
+})
+
+export default router

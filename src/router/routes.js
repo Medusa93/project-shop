@@ -29,18 +29,6 @@ export default [
     meta: {show: true}
   },
   {
-    name: 'register',
-    path: '/register',
-    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Register'),
-    meta: {show: false}
-  },
-  {
-    name: 'login',
-    path: '/login',
-    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Login'),
-    meta: {show: false}
-  },
-  {
     name: 'detail',
     path: '/detail/:skuid',
     component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Detail'),
@@ -56,6 +44,24 @@ export default [
     name: 'shopcart',
     path: '/shopcart',
     component: () => import(/* webpackChunkName: 'pages' */ '@/pages/ShopCart'),
+    meta: {show: true}
+  },
+  {
+    name: 'trade',
+    path: '/trade',
+    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Trade'),
+    meta: {show: true}
+  },
+  {
+    name: 'pay',
+    path: '/pay',
+    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/Pay'),
+    meta: {show: true}
+  },
+  {
+    name: 'paySuccess',
+    path: '/paySuccess',
+    component: () => import(/* webpackChunkName: 'pages' */ '@/pages/PaySuccess'),
     meta: {show: true}
   },
 ]
