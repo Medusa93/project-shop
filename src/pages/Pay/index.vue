@@ -131,7 +131,28 @@ export default {
         // 不显示右上角关闭按钮
         showClose: false,
         // 将 message 属性作为 HTML 片段处理
-        dangerouslyUseHTMLString: true
+        dangerouslyUseHTMLString: true,
+        // MessageBox 关闭前的回调，会暂停实例的关闭
+        beforeClose: (type, instance, done) => {
+          // type: 区分取消|确定按钮
+          // instance: 当前组件实例
+          // done:关闭弹出框的方法
+          if(type == 'cancel') {
+            // 清除定时器
+            clearInterval(this.timer)
+            this.timer = null
+            // 闭弹出框
+            done()
+          }else {
+            // 判断是否真的支付了
+            // if(this.code == 200) {
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+              this.$router.push('/paySuccess')              
+            // }
+          }          
+        }
       });
       // 支付成功,路由跳转
       // 支付失败,返回信息
@@ -144,6 +165,7 @@ export default {
           if(res.code == 200) {
             // 清除定时器
             clearInterval(this.timer)
+            this.timer = null
             // 保存成功返回的code
             this.code = res.code
             // 关闭弹出框

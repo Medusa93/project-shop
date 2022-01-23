@@ -30,6 +30,21 @@ import { MessageBox } from 'element-ui';
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 
+// 引入图片懒加载插件
+import VueLazyload from 'vue-lazyload'
+import logo from '@/assets/logo.png'
+// 注册插件
+Vue.use(VueLazyload, {
+  loading: logo,
+})
+
+// 引入自定义插件
+import myPlugins from '@/plugins/myPlugins'
+// 注册插件
+Vue.use(myPlugins, {
+  name: '123'
+})
+
 new Vue({
   // 注册路由
   router,

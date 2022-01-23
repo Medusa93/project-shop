@@ -79,7 +79,9 @@
         try {
            const { phone, password } = this
            await this.$store.dispatch('userLogin', { phone, password })
-           this.$router.push("/home")
+          //  登录路由组件 看路由当中是否包含query参数 有就调用query里面的参数指定路由 没有就调用home页
+           const toPath = this.$route.query.redirect || '/home'
+           this.$router.push(toPath)         
         }catch(err) {
           alert(err.message)
         }

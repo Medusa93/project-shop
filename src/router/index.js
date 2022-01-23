@@ -59,8 +59,15 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    // 未登录 跳转登陆页
-    next()   
+    // 想要跳转的路由
+    const toPath = to.path
+    // 未登录 不能去交易相关、支付相关【pay|paySuccess】、个人中心等路由
+    // isAuth为true 说明需要登录才能查看
+    if(to.meta.isAuth) {
+      next(`/login?redirect=${toPath}`)
+    }else {
+      next()
+    }   
   }
 })
 
